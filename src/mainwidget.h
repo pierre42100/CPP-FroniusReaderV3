@@ -36,6 +36,11 @@ private slots:
      */
     void logMessage(const QString &message);
 
+    /**
+     * When the download is finished
+     */
+    void downloadFinished();
+
 private:
 
     //The UI

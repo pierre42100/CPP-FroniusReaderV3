@@ -7,6 +7,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QDataStream>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include "backgroundrefresh.h"
 #include "config.h"
@@ -26,21 +28,37 @@ void BackgroundRefresh::error(QNetworkReply::NetworkError *)
 
 void BackgroundRefresh::httpFinished()
 {
-    qInfo("Download finished !");
+    emit log_message("Download finished !");
 
-    emit log_message(data);
+    //Read data
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonObject obj = doc.object()["Body"].toObject()["Data"].toObject()["Site"].toObject();
+
+    emit new_solar_prod(obj["P_PV"].toInt());
+    emit new_edf_prod(obj["P_Grid"].toDouble());
+
+
+    if(reply->error() != QNetworkReply::NoError){
+        log_message(reply->errorString());
+        emit new_solar_prod(-1);
+        emit new_edf_prod(-1);
+    }
+
+    reply->deleteLater();
+
+    emit download_finished();
 }
 
 void BackgroundRefresh::httpReadyRead()
 {
     data.append(reply->readAll());
-    qInfo("Received data!");
+    emit log_message("Received data!");
 }
 
 void BackgroundRefresh::refresh()
 {
     //Debug URL : http://devweb.local/playground/fronius_prod_files/v3/file
-    qInfo("Refresh prod values");
+    emit log_message("Send request to server");
 
     QUrl newURL = QUrl::fromUserInput("http://devweb.local/playground/fronius_prod_files/v3/file");
 

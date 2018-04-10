@@ -1,3 +1,12 @@
+/**
+ * Main application widget
+ *
+ * @atuhor Pierre HUBERT
+ */
+
+#include <QThread>
+
+#include "config.h"
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 
@@ -16,6 +25,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QObject::connect(m_refresh, &BackgroundRefresh::new_solar_prod, this, &MainWidget::setSolarProd);
     QObject::connect(m_refresh, &BackgroundRefresh::new_edf_prod, this, &MainWidget::setEDFprod);
     QObject::connect(m_refresh, &BackgroundRefresh::log_message, this, &MainWidget::logMessage);
+    QObject::connect(m_refresh, &BackgroundRefresh::download_finished, this, &MainWidget::downloadFinished);
 
     //Launch refresh
     m_refresh->refresh();
@@ -39,4 +49,10 @@ void MainWidget::setEDFprod(int prod)
 void MainWidget::logMessage(const QString &message)
 {
     ui->status->setText(message);
+}
+
+void MainWidget::downloadFinished()
+{
+    QThread::sleep(REFRESH_INTERVAL);
+    m_refresh->refresh();
 }

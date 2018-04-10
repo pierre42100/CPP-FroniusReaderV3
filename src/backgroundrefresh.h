@@ -48,6 +48,11 @@ signals:
      */
     void log_message(QString message);
 
+    /**
+     * Inform the request is terminated
+     */
+    void download_finished();
+
 
 private slots:
 
