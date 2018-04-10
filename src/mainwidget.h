@@ -2,8 +2,7 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
-
-#include "backgroundrefreshthread.h"
+#include "backgroundrefresh.h"
 
 namespace Ui {
 class MainWidget;
@@ -31,13 +30,19 @@ private slots:
      */
     void setEDFprod(int prod);
 
+    /**
+     * Log a message
+     * @param message The message to log
+     */
+    void logMessage(const QString &message);
+
 private:
 
     //The UI
     Ui::MainWidget *ui;
 
     //Refresh thread
-    BackgroundRefreshThread *m_refresh_thread;
+    BackgroundRefresh *m_refresh;
 };
 
 #endif // MAINWIDGET_H

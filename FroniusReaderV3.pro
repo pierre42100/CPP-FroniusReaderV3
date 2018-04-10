@@ -1,14 +1,14 @@
-QT += widgets
+QT += widgets network
 
 SOURCES += \
     src/main.cpp \
     src/mainwidget.cpp \
-    src/backgroundrefreshthread.cpp
+    src/backgroundrefresh.cpp
 
 FORMS += \
     src/mainwidget.ui
 
 HEADERS += \
     src/mainwidget.h \
-    src/backgroundrefreshthread.h \
-    src/config.h
+    src/config.h \
+    src/backgroundrefresh.h
