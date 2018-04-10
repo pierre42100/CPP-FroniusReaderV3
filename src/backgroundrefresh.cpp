@@ -9,6 +9,7 @@
 #include <QDataStream>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QSettings>
 
 #include "backgroundrefresh.h"
 #include "config.h"
@@ -16,7 +17,9 @@
 
 BackgroundRefresh::BackgroundRefresh() : QObject()
 {
-
+    //Initialize settings
+    if(QSettings().value("server_url", "false") == "false")
+        QSettings().setValue("server_url", DEFAULT_SERVER_URL);
 }
 
 void BackgroundRefresh::error(QNetworkReply::NetworkError *)
@@ -60,7 +63,7 @@ void BackgroundRefresh::refresh()
     //Debug URL : http://devweb.local/playground/fronius_prod_files/v3/file
     emit log_message("Send request to server");
 
-    QUrl newURL = QUrl::fromUserInput("http://devweb.local/playground/fronius_prod_files/v3/file");
+    QUrl newURL = QUrl::fromUserInput(QSettings().value("server_url").toString());
 
     if(!newURL.isValid()){
         qFatal("Invalid URL!");
