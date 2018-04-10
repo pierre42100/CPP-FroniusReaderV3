@@ -8,11 +8,23 @@
 #define BACKGROUNDREFRESHTHREAD_H
 
 #include <QObject>
+#include <QThread>
 
-class BackgroundRefreshThread
+class BackgroundRefreshThread : public QThread
 {
+    Q_OBJECT
+
 public:
     BackgroundRefreshThread();
+
+    void run() override;
+
+private:
+
+    /**
+     * Fetch the new values from the server
+     */
+    void refresh();
 
 
 };

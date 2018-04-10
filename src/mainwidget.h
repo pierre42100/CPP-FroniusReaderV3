@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "backgroundrefreshthread.h"
+
 namespace Ui {
 class MainWidget;
 }
@@ -30,9 +32,12 @@ private slots:
     void setEDFprod(int prod);
 
 private:
+
+    //The UI
     Ui::MainWidget *ui;
 
-
+    //Refresh thread
+    BackgroundRefreshThread *m_refresh_thread;
 };
 
 #endif // MAINWIDGET_H

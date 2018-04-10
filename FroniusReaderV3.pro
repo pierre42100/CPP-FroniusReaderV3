@@ -10,4 +10,5 @@ FORMS += \
 
 HEADERS += \
     src/mainwidget.h \
-    src/backgroundrefreshthread.h
+    src/backgroundrefreshthread.h \
+    src/config.h

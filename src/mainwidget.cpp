@@ -5,7 +5,13 @@ MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
+
+    //Setup UI
     ui->setupUi(this);
+
+    //Create worker thread
+    m_refresh_thread = new BackgroundRefreshThread;
+    m_refresh_thread->start();
 }
 
 MainWidget::~MainWidget()
